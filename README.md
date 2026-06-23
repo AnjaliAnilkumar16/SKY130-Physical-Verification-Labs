@@ -1,4 +1,4 @@
-# SKY130-Physical-Verification-Labs-VSDIAT
+# SKY130-Physical-Verification-Labs
 This repository documents a hands-on Physical Verification workshop using the open-source SKY130 Process Design Kit (PDK). Over multiple learning modules, participants explore industry-standard verification methodologies required before IC fabrication, including Design Rule Checking (DRC), Layout Versus Schematic (LVS) verification, parasitic extraction, hierarchy management, GDSII generation, density verification, antenna checks, and Electrical Rule Checking (ERC).
  
 The workshop combines theoretical concepts with practical implementation using Magic VLSI, Netgen, OpenLane, and SKY130. Each module includes verification workflows, command references, debugging techniques, screenshots, and analysis of verification reports. The repository demonstrates how layout data is validated for manufacturability, connectivity correctness, and tapeout readiness while providing exposure to real-world physical verification practices used in semiconductor design and PDK development.
