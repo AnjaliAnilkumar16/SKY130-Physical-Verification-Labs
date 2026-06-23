@@ -210,6 +210,238 @@ Steps to create the Layout
 
 If these 2 netlists are equal, then LVS will be clean.
 
+</details>
+
+### PV_D1SK2 - Tool installations and basic DRC/LVS design flow
+
+<details>
+<summary><b>L1 - Check Tool Installations</b></summary>
+
+<img width="940" height="464" alt="image" src="https://github.com/user-attachments/assets/3419fe97-bc40-4986-a055-c1e01930e038" />
+
+Open the terminal & type “magic”. This will open 2 windows which are console & a layout window. 
+
+<img width="940" height="488" alt="image" src="https://github.com/user-attachments/assets/73b7a632-8400-4f62-87a6-33ea46196f98" />
+
+Netgen has only command line interface.
+
+<img width="940" height="428" alt="image" src="https://github.com/user-attachments/assets/ef06445d-166d-4053-abba-ca5e7b2380a9" />
+
+<img width="940" height="344" alt="image" src="https://github.com/user-attachments/assets/9a3dc649-9973-4fba-9ae6-c07b7f5e35ef" />
+
+Other commands used are 
+1.	netgen -noconsole
+2.	magic dnull -noconsole
+3.	ngspice -b
+
+<img width="879" height="690" alt="image" src="https://github.com/user-attachments/assets/26996b9b-eed1-4d89-a1f1-af0e1bd05a1b" />
+
+</details>
+
+
+<details>
+<summary><b>L2 - Creating Sky130 Device Layout In Magic</b></summary>
+
+The whole exercises can be divided into mainly 4, they are
+1.	Creating a schematic in “xschem”.
+2.	Exporting the netlist & importing in magic to create the layout.
+3.	Extracting the netlist from magic & simulating it.
+4.	Run LVS for the same.
+
+
+For the xschem, we need to copy the inverter setup which actually looks like,
+
+<img width="940" height="343" alt="image" src="https://github.com/user-attachments/assets/5dea3b2a-bd85-41f4-94bb-a863db54a2b2" />
+
+<img width="940" height="459" alt="image" src="https://github.com/user-attachments/assets/35aed75a-450f-4de3-bb43-6c7cb1e6ed99" />
+
+<img width="940" height="495" alt="image" src="https://github.com/user-attachments/assets/9b5bad91-0ccb-4682-8119-8348205b97ee" />
+
+To select any of the cells, press to any of the cells & “e”
+
+
+To come out of the window “cntrl+e”
+
+<img width="701" height="70" alt="image" src="https://github.com/user-attachments/assets/24301d75-1d8e-49b7-a7c7-44b3e11a4648" />
+
+<img width="940" height="462" alt="image" src="https://github.com/user-attachments/assets/32bd09a0-dabf-4798-a488-c1bfc575ec4b" />
+
+If we can see the technology name & the layers as coloured square boxes, the setup is successful.
+
+<img width="557" height="79" alt="image" src="https://github.com/user-attachments/assets/09986bd9-835c-43d5-9737-64c6d1d58910" />
+
+This for a good graphical view of the windows.
+
+<img width="835" height="731" alt="image" src="https://github.com/user-attachments/assets/c5c6f8bf-5725-4afe-a3b1-4c5578bf52dc" />
+
+How to instantiate a device in magic
+1.	Open magic
+2.	Click devices 1
+3.	Select the device, here I selected nmos
+4.	Provide the parameters->click create->apply
+5.	To view the device press “v”
+6.	Inorder to open the parameter tab press “cntrl+p”
+
+
+<img width="940" height="324" alt="image" src="https://github.com/user-attachments/assets/a741b358-1951-4e34-9916-cf1b6228fe78" />
+
+<img width="940" height="321" alt="image" src="https://github.com/user-attachments/assets/8ccf0cad-1758-4834-ae01-42ce5652455a" />
+
+
+To select a particular layer, hover the pointer onto the layer & press “s” for select.
+
+<img width="940" height="452" alt="image" src="https://github.com/user-attachments/assets/694d7ad7-077e-4e3f-a973-420f42a11104" />
+
+Now we don’t need to hover to the command window always. “:” this semicolon will work. So if we need to know about the layer, just hover, type “:” directly & then type what
+
+</details>
+
+
+<details>
+<summary><b>L3 - Creating Simple Schematic In Xschem</b></summary>
+
+Open xscheme->File->new schematic
+
+<img width="940" height="626" alt="image" src="https://github.com/user-attachments/assets/2a72e63d-9b22-4a3b-8a8c-82343674c89f" />
+
+<img width="940" height="615" alt="image" src="https://github.com/user-attachments/assets/5c2b72f8-c2a3-47a0-b71d-a8117bb8b378" />
+
+<img width="701" height="610" alt="image" src="https://github.com/user-attachments/assets/43cdb86b-aff3-4b17-93c7-ee1b8e91b474" />
+
+For pin, select->ipin
+Similarly instantiate a opin, iopin(for Vdd & Vss)
+
+
+Now for a wire, just hover over the starting point & press “w”. Then without clicking the mouse pointer just drag the mouse towards the ending point, then click “enter”
+
+<img width="940" height="615" alt="image" src="https://github.com/user-attachments/assets/20cf84e0-b816-42ed-827b-3da8419873b7" />
+
+<img width="940" height="518" alt="image" src="https://github.com/user-attachments/assets/09ce51f0-ed88-480d-9aa7-c173ac456cb2" />
+
+To change the pin name, select the pin, press “Q”. Change the name.
+
+<img width="729" height="817" alt="image" src="https://github.com/user-attachments/assets/a852520b-132b-446e-bc64-13ea1c05c0cf" />
+
+<img width="940" height="543" alt="image" src="https://github.com/user-attachments/assets/3327acff-3131-4e8c-a352-bd5a637ec153" />
+
+For Skywater PDK, the minimum width of the mosfet is 1.5 microns. So there are 3 fingers, in total it will comprise of 3*1.5=4.5u
+All the other parameters are layout specific, so we shall leave that.
+
+
+<img width="940" height="540" alt="image" src="https://github.com/user-attachments/assets/2aa95ba9-2860-4be8-b4c0-de3281769e8a" />
+
+For pfet devices, just mention the body terminal is connected to vdd. Spice netlist is case in sensitive, then als for our easy understanding, denote it by vdd.
+
+<img width="698" height="617" alt="image" src="https://github.com/user-attachments/assets/e5668277-9837-4abe-88b4-da2321dfafab" />
+
+
+File-> save as
+
+</details>
+
+
+<details>
+<summary><b>L4 - Creating Symbol And Exporting Schematic In Xschem</b></summary>
+
+<img width="940" height="433" alt="image" src="https://github.com/user-attachments/assets/e64d12de-bc1e-4969-bba8-40046e1a158c" />
+
+<img width="940" height="459" alt="image" src="https://github.com/user-attachments/assets/24ae1d6e-d20f-40ef-a1fd-5494170a0cf5" />
+
+<img width="698" height="609" alt="image" src="https://github.com/user-attachments/assets/1c491d79-def5-47a1-b3c5-db1b347d80f0" />
+
+Open the symbol view which was inverter1.sym which we already made and kept.
+
+<img width="940" height="282" alt="image" src="https://github.com/user-attachments/assets/3ed9205b-2b0b-4e10-9f85-16b1f0930d2f" />
+
+Now for simulation, we must provide 2 voltage sources. Then a gnd pin also.
+
+<img width="698" height="610" alt="image" src="https://github.com/user-attachments/assets/1219b0c3-3cfb-44b8-b90e-513351af40a8" />
+
+<img width="701" height="622" alt="image" src="https://github.com/user-attachments/assets/7011ab89-1f08-4105-8f63-4823d78a0c47" />
+
+<img width="940" height="289" alt="image" src="https://github.com/user-attachments/assets/2771b253-68d3-432c-8ce5-c3a0b89614da" />
+
+Add the pin names. The transistors used are low voltage ones. So set Vdd into 1.8V. Now we need to set Vin. Since we need to plot the values which changes with time, here it is a PWL(piece wise linear). The way in which it is set is,
+pwl stands for Piecewise Linear voltage source. The values are specified as time-voltage pairs. In pwl(0 0 20n 0 900n 1.8), the voltage remains at 0 V until 20 ns and then ramps linearly to 1.8 V by 900 ns. It is commonly used to generate custom input waveforms and study circuit behavior during voltage transitions.
+
+
+<img width="940" height="336" alt="image" src="https://github.com/user-attachments/assets/7d9d567f-b256-46f1-825f-8cc87d1b6f95" />
+
+To run a simulation in ngspice, we need a model file provided by the foundry or PDK, which contains the device models and parameters of transistors and other components. In addition to the circuit schematic, we must specify the type of simulation to be performed, such as DC, AC, or Transient (TRAN) analysis. In xschem, these simulation commands are typically added using text blocks(code_shown.sym in the below figure), which are included in the generated SPICE netlist and interpreted by ngspice during simulation.
+
+<img width="700" height="607" alt="image" src="https://github.com/user-attachments/assets/bcc0d7e8-f8b0-4406-9d0c-f7ead7c237b9" />
+
+
+<img width="940" height="333" alt="image" src="https://github.com/user-attachments/assets/8f73dca7-1688-43de-bafb-691b2ccbe38e" />
+
+“.lib /usr/share/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt"
+
+<img width="940" height="334" alt="image" src="https://github.com/user-attachments/assets/37e65fff-bcba-4a81-bd7a-516afb34ceab" />
+
+"   .control
+
+
+trans 1n 1u
+
+
+plot V(in) V(out)
+
+
+.endc"
+
+For trans analysis from 1n to 1u, this will plot the graph between V(in) & V(out).
+
+<img width="940" height="582" alt="image" src="https://github.com/user-attachments/assets/4ab7bb86-d783-4345-9786-30b7e68d993a" />
+
+<img width="940" height="438" alt="image" src="https://github.com/user-attachments/assets/fd31d08d-29f5-4dcb-9063-b049774a30d0" />
+
+Now click Netlist to create the netlist of the schematic, then click Simulate.
+There was an unexpected error for the block, so I have made another inverter with the name inv.sch. For the last & final simulation results, the new one is used. So next snapshots figure name might differ from the previous.
+
+
+<img width="576" height="404" alt="image" src="https://github.com/user-attachments/assets/45b57683-3ce2-4887-84f8-0a29e6792001" />
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
