@@ -514,7 +514,7 @@ Now use the same test bench, but instead of the xshem netlist earlier, we need t
 ---
 
 
-# Day 2 - DRC/LVS Theory and labs
+# Day 2 - DRC and LVS Theory and labs
 
 ### PV_D2SK1 - Introduction to DRC and LVS
 
