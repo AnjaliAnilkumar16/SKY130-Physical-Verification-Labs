@@ -731,6 +731,343 @@ These parasitics affect delay, power consumption, crosstalk, and signal integrit
 In advanced nodes (28nm and below), sidewall/coupling capacitance often dominates. That's why increasing spacing between critical nets can significantly reduce crosstalk and timing issues even when the wire area remains the same.
 
 
+</details>
+
+<details>
+<summary><b>L8 - LVS Setup For Netgen</b></summary>
+
+Netgen is completely unaware of the circuit, it only cares about the netlists. So there are some problems it will encounter.
+
+<img width="729" height="217" alt="image" src="https://github.com/user-attachments/assets/1456deda-6cc1-4e5a-8de1-299c34dcbfb6" />
+
+
+•	When there are permutable(interchangeable) terminals for a device like resistor terminals or source & drain of a mosfet, LVS cannot recognise the same.
+
+
+•	When the resistance of a device in schematic is x & in layout there will be 10 resistors with resistance/10, the tool should understand. In short in layout it should consider the device as one not ten.
+
+
+All these are noted in the setup file of netgen.
+
+<img width="735" height="498" alt="image" src="https://github.com/user-attachments/assets/6eed8971-de01-4ad4-b677-a346dc77cfaf" />
+
+</details>
+
+<details>
+<summary><b>L9 - Verification By XOR</b></summary>
+
+
+<img width="720" height="376" alt="image" src="https://github.com/user-attachments/assets/8abe2e19-6644-4547-859c-b72b11e1c9fd" />
+
+The Boolean XOR operation is used to compare two layout regions and highlight only the areas where they differ. Matching regions cancel out, while any missing or additional geometry appears in the XOR result, making it an effective method for detecting layout mismatches.
+
+</details>
+
+### PV_D2SK2 - Labs for GDS read/write, extraction, DRC, LVS and XOR setup
+
+</details>
+
+<details>
+<summary><b>L1 - GDS Read</b></summary>
+
+```
+% cif listall istyle
+% cif listall istyle : To check the default style
+% gds read /usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd.gds
+%cellname top
+```
+
+
+<img width="940" height="321" alt="image" src="https://github.com/user-attachments/assets/b7c896de-aa1e-4e38-983c-cf2ea1799f69" />
+
+
+<img width="940" height="321" alt="image" src="https://github.com/user-attachments/assets/9cc9fbe1-0948-46f8-a5f5-ca28be442b33" />
+
+
+<img width="940" height="447" alt="image" src="https://github.com/user-attachments/assets/99718c0e-fc6e-44c2-945a-ee664dffffa9" />
+
+
+<img width="940" height="443" alt="image" src="https://github.com/user-attachments/assets/e5bc2140-00d5-47e9-bf01-70ea4b2966db" />
+
+
+<img width="940" height="445" alt="image" src="https://github.com/user-attachments/assets/3e032cf8-ddfc-43f8-9552-10aa88eb3258" />
+
+
+<img width="560" height="76" alt="image" src="https://github.com/user-attachments/assets/dc5b7e45-5b7b-475f-a042-3cae51df79b0" />
+
+
+Since the current style is vendor, the blue colored text are “pins”.
+
+
+<img width="798" height="84" alt="image" src="https://github.com/user-attachments/assets/6523c5bc-563f-4449-8d3c-074b041ef9f2" />
+
+
+<img width="570" height="564" alt="image" src="https://github.com/user-attachments/assets/bb889cef-babd-4d92-a037-19607ee92141" />
+
+
+The pins appeared as labels.
+Here the present cell got overwritten. If we don’t want to overwrite the command is
+
+
+```
+% gds noduplicates true
+```
+
+</details>
+
+<details>
+<summary><b>L2 – Ports</b></summary>
+
+
+<img width="940" height="362" alt="image" src="https://github.com/user-attachments/assets/3795d300-621d-4a42-9da3-0a7372e66848" />
+
+
+As gds lacks the metadata of pin class, it came default.
+To read lef file
+
+```
+% lef read /usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+```
+
+
+<img width="939" height="251" alt="image" src="https://github.com/user-attachments/assets/9ecb4669-2b65-4502-a189-fb89069216c7" />
+
+
+```
+% port 1 name
+% port 1 class
+% port 1 use
+```
+
+
+Lef file contains metadata such as port name, class use etc. That’s why we can get the same after loading the specific cell’s lef file here.
+
+
+Now we can load the spice netlist of the standard cell & see:
+
+```
+% readspice /usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice
+```
+
+</details>
+
+<details>
+<summary><b>L3 - Abstract Views</b></summary>
+
+
+First load LEF view of a cell
+
+```
+% lef read /usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef
+```
+
+<img width="940" height="450" alt="image" src="https://github.com/user-attachments/assets/877f37bd-207d-4e68-bb7d-d6d1a97d2512" />
+
+
+This don’t have any transistors, labels etc.
+
+
+<img width="940" height="251" alt="image" src="https://github.com/user-attachments/assets/9265ed11-5ffb-4beb-8659-4b04698e11e6" />
+
+
+Once a gds has been written from abstract many information is lost. This can be shown as, 
+
+```
+% load test
+% getcell sky130_fd_sc_hd__and2_1
+```
+
+
+<img width="745" height="200" alt="image" src="https://github.com/user-attachments/assets/6effef6e-a274-49ca-bfb7-52cc82a98fd6" />
+
+
+<img width="940" height="449" alt="image" src="https://github.com/user-attachments/assets/65a2959c-e795-4237-8375-f294b7cb467e" />
+
+
+Now to write this to gds:
+
+
+<img width="940" height="90" alt="image" src="https://github.com/user-attachments/assets/0324a29d-eeff-4303-a9e8-194b136f6113" />
+
+
+Error message came
+Now close & restart magic. Read the gds. 
+
+
+<img width="940" height="156" alt="image" src="https://github.com/user-attachments/assets/5790f499-ffbf-4c12-b0d6-71febaf40edc" />
+
+
+<img width="940" height="445" alt="image" src="https://github.com/user-attachments/assets/5b43b506-dd3b-4cbe-a7dd-128837bc3f78" />
+
+
+Many information regarding the layout is lost here. Anything which is not a pin disappears from the gds. Because gds can hold pin data.
+
+
+</details>
+
+<details>
+<summary><b>L4 - Basic Extraction</b></summary>
+
+
+<img width="940" height="390" alt="image" src="https://github.com/user-attachments/assets/f64e829e-4c9e-4d62-8703-421402c19644" />
+
+
+Now limiting the threshold value of the capacitor to 0.01,
+
+<img width="940" height="379" alt="image" src="https://github.com/user-attachments/assets/8f67c4c4-33af-45b7-b8ce-c1ca1d6a241f" />
+
+Now for resistance extraction,
+
+```
+% ext2sim labels on
+% ext2sim
+```
+
+<img width="940" height="385" alt="image" src="https://github.com/user-attachments/assets/dc3d91db-3137-4bb1-9a80-f9f19959f89b" />
+
+
+```
+% ext2spice lvs
+% ext2spice 
+% ext2spice cthresh 0.01
+% ext2spice extresist on
+% ext2spice
+```
+
+
+<img width="940" height="371" alt="image" src="https://github.com/user-attachments/assets/a5235aa2-5370-4a57-9317-2df6d3b68d8e" />
+
+</details>
+
+<details>
+<summary><b>L5 - Setup For DRC</b></summary>
+
+
+Running DRC in batch mode
+
+```
+% /usr/share/pdk/sky130A/libs.tech/magic/run_standard_drc.py /usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/mag/sky130_fd_sc_hd__and2_1.mag
+```
+
+
+<img width="940" height="229" alt="image" src="https://github.com/user-attachments/assets/8b4f4fa0-52b3-4ee9-8bc2-bbfe67276661" />
+
+
+This will create a DRC report “sky130_fd_sc_hd__and2_1_drc.txt”
+
+
+<img width="940" height="370" alt="image" src="https://github.com/user-attachments/assets/1ba07248-bdf3-413a-9ddd-992e06bdceb5" />
+
+
+A standard cell also shows some DRC errors, because the wells are not connected.
+
+
+<img width="940" height="339" alt="image" src="https://github.com/user-attachments/assets/9d5cca0a-11be-4f4d-8e0f-cf723af230f6" />
+
+
+But in the magic window it shows DRC as clean.
+
+
+<img width="940" height="348" alt="image" src="https://github.com/user-attachments/assets/23d4aaae-5316-4447-9129-340b618b6288" />
+
+
+The batch script runs drc in “full” mode. That’s why well connection error while a normal layout takes in “fast” mode.
+
+
+<img width="940" height="353" alt="image" src="https://github.com/user-attachments/assets/24316353-0c7e-4e33-bc01-9aecb476fa2a" />
+
+
+Now to check the reason, select the cell & type
+
+
+```
+% drc why
+```
+
+<img width="940" height="339" alt="image" src="https://github.com/user-attachments/assets/75298bff-4dfb-4a8e-b214-b4da04981eb5" />
+
+
+<img width="940" height="342" alt="image" src="https://github.com/user-attachments/assets/accf1d4d-dcc9-425a-a585-1437ce5b7bf4" />
+
+
+After placing tapcell, the DRC violations are gone.
+
+
+</details>
+
+<details>
+<summary><b>L6 - Setup For LVS</b></summary>
+
+
+```
+cp /usr/share/pdk/sky130A/libs.tech/netgen/sky130A_setup.tcl ./setup.tcl
+```
+
+<img width="940" height="358" alt="image" src="https://github.com/user-attachments/assets/c9a6ecca-7e5e-4c6f-89cb-d4b1e3e82fe8" />
+
+
+```
+% netgen -batch lvs "../magic/sky130_fd_sc_hd__and2_1.spice sky130_fd_sc_hd__and2_1" "/usr/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice sky130_fd_sc_hd__and2_1"
+```
+
+
+</details>
+
+<details>
+<summary><b> L7 - Setup For XOR</b></summary>
+
+
+<img width="940" height="432" alt="image" src="https://github.com/user-attachments/assets/b2f1b2b1-7ceb-4124-b254-2adc0599c46a" />
+
+
+<img width="940" height="444" alt="image" src="https://github.com/user-attachments/assets/46d0d064-e3c7-4974-8f59-5d90da6129c3" />
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
