@@ -6,7 +6,8 @@ The workshop combines theoretical concepts with practical implementation using M
 The materials cover extraction methodologies, parasitic capacitance analysis, hierarchy handling, CIF/GDS generation, density and fill verification, CMP-aware design considerations, antenna effects, ERC validation, and tapeout sign-off concepts, preparing learners for roles in Physical Verification, Design Enablement, PDK Development, and Custom Layout Engineering.
 
 
-Banner Image]
+<img width="1536" height="1024" alt="ChatGPT Image Jul 2, 2026, 05_50_54 PM" src="https://github.com/user-attachments/assets/a0acdbdd-cd1a-491f-ab72-56ea50cc1e8d" />
+
 
 
 
