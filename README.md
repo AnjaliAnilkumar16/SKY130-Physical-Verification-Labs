@@ -343,15 +343,16 @@ File-> save as
 <details>
 <summary><b>L4 - Creating Symbol And Exporting Schematic In Xschem</b></summary>
 
-<img width="940" height="433" alt="image" src="https://github.com/user-attachments/assets/e64d12de-bc1e-4969-bba8-40046e1a158c" />
+<img width="940" height="433" alt="image" src="https://github.com/user-attachments/assets/b15f7a46-f833-438f-995d-6e9bde6e7f37" />
 
-<img width="940" height="459" alt="image" src="https://github.com/user-attachments/assets/24ae1d6e-d20f-40ef-a1fd-5494170a0cf5" />
+<img width="940" height="459" alt="image" src="https://github.com/user-attachments/assets/5bb11757-3e03-43e2-8289-b0c77df87460" />
 
-<img width="698" height="609" alt="image" src="https://github.com/user-attachments/assets/1c491d79-def5-47a1-b3c5-db1b347d80f0" />
+<img width="626" height="542" alt="image" src="https://github.com/user-attachments/assets/b20dc1eb-c588-4655-a8cc-3e5cd73bacd2" />
 
-Open the symbol view which was inverter1.sym which we already made and kept.
+Open the symbol view which was inverter.sym which we already made and kept.
 
-<img width="940" height="282" alt="image" src="https://github.com/user-attachments/assets/3ed9205b-2b0b-4e10-9f85-16b1f0930d2f" />
+<img width="804" height="316" alt="image" src="https://github.com/user-attachments/assets/d6b669fd-9ac9-4719-82ae-12d9330796bd" />
+
 
 Now for simulation, we must provide 2 voltage sources. Then a gnd pin also.
 
@@ -359,13 +360,16 @@ Now for simulation, we must provide 2 voltage sources. Then a gnd pin also.
 
 <img width="701" height="622" alt="image" src="https://github.com/user-attachments/assets/7011ab89-1f08-4105-8f63-4823d78a0c47" />
 
-<img width="940" height="289" alt="image" src="https://github.com/user-attachments/assets/2771b253-68d3-432c-8ce5-c3a0b89614da" />
+
+<img width="940" height="281" alt="image" src="https://github.com/user-attachments/assets/2a60e48f-486b-4ea8-a2ca-20c1cfdfa205" />
+
 
 Add the pin names. The transistors used are low voltage ones. So set Vdd into 1.8V. Now we need to set Vin. Since we need to plot the values which changes with time, here it is a PWL(piece wise linear). The way in which it is set is,
 pwl stands for Piecewise Linear voltage source. The values are specified as time-voltage pairs. In pwl(0 0 20n 0 900n 1.8), the voltage remains at 0 V until 20 ns and then ramps linearly to 1.8 V by 900 ns. It is commonly used to generate custom input waveforms and study circuit behavior during voltage transitions.
 
 
-<img width="940" height="336" alt="image" src="https://github.com/user-attachments/assets/7d9d567f-b256-46f1-825f-8cc87d1b6f95" />
+<img width="692" height="342" alt="image" src="https://github.com/user-attachments/assets/3ab63ce7-9d3e-42b7-ae93-3a574d9cd477" />
+
 
 To run a simulation in ngspice, we need a model file provided by the foundry or PDK, which contains the device models and parameters of transistors and other components. In addition to the circuit schematic, we must specify the type of simulation to be performed, such as DC, AC, or Transient (TRAN) analysis. In xschem, these simulation commands are typically added using text blocks(code_shown.sym in the below figure), which are included in the generated SPICE netlist and interpreted by ngspice during simulation.
 
@@ -378,32 +382,138 @@ To run a simulation in ngspice, we need a model file provided by the foundry or 
 
 <img width="940" height="334" alt="image" src="https://github.com/user-attachments/assets/37e65fff-bcba-4a81-bd7a-516afb34ceab" />
 
-"   .control
-
-
+```
+".control
 trans 1n 1u
-
-
 plot V(in) V(out)
-
-
-.endc"
-
+endc"
+```
 For trans analysis from 1n to 1u, this will plot the graph between V(in) & V(out).
 
-<img width="940" height="582" alt="image" src="https://github.com/user-attachments/assets/4ab7bb86-d783-4345-9786-30b7e68d993a" />
+<img width="940" height="392" alt="image" src="https://github.com/user-attachments/assets/fa8683ad-452c-4b41-8374-4722a1bc13d5" />
 
-<img width="940" height="438" alt="image" src="https://github.com/user-attachments/assets/fd31d08d-29f5-4dcb-9063-b049774a30d0" />
+
+<img width="940" height="392" alt="image" src="https://github.com/user-attachments/assets/33f92273-75dc-442c-81a4-4fd7e4181e58" />
+
 
 Now click Netlist to create the netlist of the schematic, then click Simulate.
-There was an unexpected error for the block, so I have made another inverter with the name inv.sch. For the last & final simulation results, the new one is used. So next snapshots figure name might differ from the previous.
+
+<img width="940" height="464" alt="image" src="https://github.com/user-attachments/assets/33207954-a57b-4632-8a65-2777e1fac09f" />
+
+<img width="940" height="407" alt="image" src="https://github.com/user-attachments/assets/e73e3150-76ef-4ca3-b414-18ffa58c9c3f" />
+
+<img width="940" height="405" alt="image" src="https://github.com/user-attachments/assets/933f7903-d7fe-4727-b383-af9e3d6b2166" />
+
+**LVS Netlist:** Top Level is a .subckt: This option instructs Xschem to generate the top-level schematic as a SPICE subcircuit (.subckt) instead of a complete standalone circuit. The generated netlist includes .subckt and .ends statements, allowing the design to be instantiated as a reusable hierarchical block within larger circuits. This is particularly important for Layout Versus Schematic (LVS) verification, where the extracted layout netlist is compared against the schematic netlist at the subcircuit level. Enabling this option ensures compatibility with hierarchical designs and simplifies the reuse of schematic blocks such as inverters, NAND gates, and other standard cells during simulation and physical verification.
+
+<img width="940" height="226" alt="image" src="https://github.com/user-attachments/assets/838f4884-f283-4bee-94be-737d5aac9ae5" />
+</details>
 
 
-<img width="576" height="404" alt="image" src="https://github.com/user-attachments/assets/45b57683-3ce2-4887-84f8-0a29e6792001" />
+<details>
+<summary><b>L5 - Importing Schematic To Layout And Inverter Layout Steps</b></summary>
+
+Now inorder to work with magic, we must import the layout into the magic. For that we need the latest LVS netlist.
+
+<img width="635" height="201" alt="image" src="https://github.com/user-attachments/assets/b4cbee51-d924-4538-8629-b3dbe8e025b0" />
+
+
+<img width="940" height="449" alt="image" src="https://github.com/user-attachments/assets/80a7251a-3837-4cf7-844f-047537d793de" />
+
+
+<img width="940" height="442" alt="image" src="https://github.com/user-attachments/assets/e4c7ebe8-2678-4a7a-abed-c125fe498340" />
+
+
+1.	To select the instance: Hover on the instance (don’t click), press “i”.
+
+  
+2.	To move the instance: Select the instance, move the cursor to the lower left corner of the destination to be moved & press “m”
+
+   
+3.	To see the parameter window: Select the instance, press”ctrl+p”
+
+
+<img width="601" height="807" alt="image" src="https://github.com/user-attachments/assets/9c3c2018-507a-4991-a45d-353e1490e824" />
+
+
+<img width="610" height="803" alt="image" src="https://github.com/user-attachments/assets/9b9e6f86-6313-4131-9e93-3e4a0c278f06" />
+
+
+<img width="534" height="579" alt="image" src="https://github.com/user-attachments/assets/3233171c-8bdd-44f5-bf8a-51d0a39f794a" />
+
+
+The layout after connections will look something like this
+1.	For a metal wire, first draw the approximate rectangle shape then hover to a specific metal & press middle most button. For example if we want to connect vss pin to guard ring, first draw the rectangle metal wire, then select that shape hover the black pointer to somewhere inside the vss pin itself (because its of metal 1), press middle most mouse button.
+
+ 
+2.	Then for constant wire connection, press “space bar”, then the mouse pointer will get changed, take the “arrow mark one”, drag with left mouse button. To stop again middle mouse button.
 
 </details>
 
+
+<details>
+<summary><b>L6 - Final DRC/LVS Checks And Post Layout Simulations</b></summary>
+
+<img width="940" height="366" alt="image" src="https://github.com/user-attachments/assets/2ab4418f-ade8-491a-b835-1bcd3f2152b0" />
+
+<img width="513" height="174" alt="image" src="https://github.com/user-attachments/assets/14d67cb8-ea56-47eb-aa88-21848c8e267e" />
+
+
+<img width="940" height="324" alt="image" src="https://github.com/user-attachments/assets/f8cbf39f-5ad2-4763-ac88-783da8161bb2" />
+
+
+```
+% extract do local
+% extract all
+% ext2spice lvs
+% ext2spice
+```
+
+**ext2spice lvs** -no parasitics extracted
+
+<img width="940" height="79" alt="image" src="https://github.com/user-attachments/assets/ea1953c1-c3cb-4f8d-a50d-b9b799bf283e" />
+
+
+For LVS use this command: 
+Note: Use Layout netlist first
+```
+netgen -batch lvs "../magic/inverter.spice inverter" "../xschem/inverter.spice inverter"
+```
+
+<img width="906" height="873" alt="image" src="https://github.com/user-attachments/assets/d50ced0f-9c74-4635-a135-55a513394ae5" />
+
+When we add,
+
+```
+% ext2spice cthresh 0
+```
+
+This will add the parasitic capacitances also to the netlist, which will look like 
+
+<img width="940" height="691" alt="image" src="https://github.com/user-attachments/assets/202de445-f5c7-42bf-a48f-099db8189405" />
+
+
+<img width="940" height="57" alt="image" src="https://github.com/user-attachments/assets/bb450592-a89a-4e97-a951-5a7f58c38920" />
+
+
+Now use the same test bench, but instead of the xshem netlist earlier, we need to use magic extracted netlist with parasitics. This netlist pin order may be changed. Make changes as necessary. 
+
+
+<img width="940" height="383" alt="image" src="https://github.com/user-attachments/assets/723bae06-e818-41e7-86ad-1641207611e4" />
+
+
+```
+% cp -r ../xschem/.spiceinit .
+```
+
+<img width="832" height="242" alt="image" src="https://github.com/user-attachments/assets/9cb70169-f5ea-4a84-9c06-380e6e40f33b" />
+
+</details>
+
+
 ---
+
+
 # Day 2 - DRC/LVS Theory and labs
 
 ### PV_D2SK1 - Introduction to DRC and LVS
