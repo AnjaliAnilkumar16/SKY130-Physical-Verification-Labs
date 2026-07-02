@@ -1206,6 +1206,18 @@ It uses capacitance of the side walls. Also known as MoM (Metal oxide Metal).
 
 
 
+Latch-up is an undesirable condition in CMOS integrated circuits where a low-resistance path is unintentionally formed between the power supply (VDD) and ground (VSS) due to the activation of parasitic PNPN structures inherent in the CMOS process. This results in excessive current flow, which can lead to circuit malfunction, overheating, and permanent device damage if not interrupted. Latch-up can be triggered by voltage spikes, substrate noise, or electrostatic discharge (ESD). To improve latch-up immunity, CMOS layouts incorporate design techniques such as guard rings, well and substrate contacts, proper device spacing, and adherence to foundry-defined design rules.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
