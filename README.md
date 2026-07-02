@@ -18,7 +18,7 @@ Banner Image]
 
 - [Day 3 - Front-End and Back-End Verification Concepts](#day-3---front-end-and-back-end-verification-concepts)
 
-- [Day 4 - OpenLane and Physical Verification Flow](#day-4---openlane-and-physical-verification-flow)
+- [Day 4 - OpenLane and Physical Verification Flow - Additional Content](#day-4---openlane-and-physical-verification-flow---additional-content)
 
 - [Day 5 - Running LVS and Debugging](#day-5---running-lvs-and-debugging)
  
@@ -2409,8 +2409,7 @@ i0_analog[4] error, In the .mag file for the circuit we can see the 2 nets are s
 ---
 
 
-#Day 4 - OpenLane and Physical Verification Flow
-
+#Day 4 - OpenLane and Physical Verification Flow - Additional Content
 
 
 
