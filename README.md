@@ -1025,6 +1025,226 @@ cp /usr/share/pdk/sky130A/libs.tech/netgen/sky130A_setup.tcl ./setup.tcl
 </details>
 
 
+# Day 3 - Front-End and Back-End Verification Concepts
+
+### PV_D3SK1 - Introduction to DRC rules
+
+<details>
+<summary><b>L1 - Introduction To Basic Silicon Manufacturing Process</b></summary>
+
+
+<img width="701" height="457" alt="image" src="https://github.com/user-attachments/assets/0db70d3a-e1ee-451b-ba3b-ec4917e31bd0" />
+
+
+The planar silicon manufacturing process is the foundation of modern CMOS fabrication, where semiconductor devices and interconnects are built layer by layer on a flat silicon wafer. The process begins with a P-type substrate, followed by the formation of an N-well for PMOS devices. Source and drain regions are created through ion implantation, while polysilicon is deposited to form the transistor gates. After insulating oxide layers are added, Metal 1 is used for the first level of routing, and vias provide vertical connections to higher metal layers such as Metal 2. This layered and planar approach enables precise device fabrication, reliable electrical interconnections, and the high integration density required for modern VLSI circuits.
+
+
+<img width="940" height="1411" alt="image" src="https://github.com/user-attachments/assets/b50f3601-2664-426c-befe-a509cdf02bbe" />
+
+
+<img width="940" height="627" alt="image" src="https://github.com/user-attachments/assets/2c386527-3778-460e-a948-dabcf8145a5e" />
+
+</details>
+
+<details>
+<summary><b>L2 - Backend Metal Layer Rules</b></summary>
+
+**Minimum width:** Because below this, the routing wires might become fragile & results in short circuit.
+
+<img width="648" height="542" alt="image" src="https://github.com/user-attachments/assets/affd5141-14a2-4199-878c-b568a23ec079" />
+
+**Spacing:** If no proper spacing, then shorts can happen.
+
+
+<img width="719" height="554" alt="image" src="https://github.com/user-attachments/assets/b05de471-df95-46b5-b98a-f9d6f2f845ab" />
+
+
+<img width="860" height="604" alt="image" src="https://github.com/user-attachments/assets/82490628-999d-40df-a47b-7aef57b4fa15" />
+
+
+<img width="706" height="589" alt="image" src="https://github.com/user-attachments/assets/3a029bc4-dc27-4210-b5a2-b82a7bebe1f0" />
+
+
+<img width="903" height="598" alt="image" src="https://github.com/user-attachments/assets/41e18cb9-114c-44ce-83fd-f4caebaa40aa" />
+
+
+<img width="819" height="445" alt="image" src="https://github.com/user-attachments/assets/305358fe-8556-47b4-8a47-0250fd74ea20" />
+
+
+<img width="791" height="476" alt="image" src="https://github.com/user-attachments/assets/2dd23e4e-6d33-40a3-abfb-b34f867ea216" />
+
+
+<img width="747" height="589" alt="image" src="https://github.com/user-attachments/assets/2918ad87-2638-4df2-87a6-41d04e339129" />
+
+These are the cuts on the oxide of the below layer(here on metal 1, when metal 2 must be connected.
+
+
+<img width="876" height="632" alt="image" src="https://github.com/user-attachments/assets/be839d49-f537-42cd-a5d6-dec95bde7cd0" />
+
+
+<img width="859" height="617" alt="image" src="https://github.com/user-attachments/assets/45d6a3c1-c826-4fe1-8819-e2583a3d0ed7" />
+
+
+<img width="789" height="592" alt="image" src="https://github.com/user-attachments/assets/6f176a81-49c2-4bbf-8114-924d35d1c334" />
+
+
+</details>
+
+<details>
+<summary><b>L3 - Local Interconnect Rules</b></summary>
+
+<img width="867" height="581" alt="image" src="https://github.com/user-attachments/assets/b6983d29-c48b-4cdd-ac76-f9259389fd42" />
+
+
+Local interconnect is a new concept in sky water pdks. Mostly after poly, through a contact metal 1 will be the next routing layer. But in skywater pdk, there is another layer made of TiN which lies between poly & Metal 1. Since its resistance is high, it should be used as a short wire only. 
+
+
+<img width="713" height="506" alt="image" src="https://github.com/user-attachments/assets/37c31bf6-9e80-49cc-833a-dd67a1053534" />
+
+
+</details>
+
+<details>
+<summary><b>L4 - Front-End Rules, Transistors Implants, ID and Boundary Layers, Wells And Same Net Rules</b></summary>
+
+
+<img width="940" height="501" alt="image" src="https://github.com/user-attachments/assets/20cdd60f-c2e2-4470-b8c3-f49410348c0e" />
+
+
+<img width="756" height="525" alt="image" src="https://github.com/user-attachments/assets/4bb3e4dd-3c3e-48a4-901a-c15b505bd56b" />
+
+
+<img width="940" height="627" alt="image" src="https://github.com/user-attachments/assets/99fdf365-89bb-4197-b750-b702856d240a" />
+
+Note: An AI created image.
+
+
+<img width="726" height="442" alt="image" src="https://github.com/user-attachments/assets/2644e769-512a-4ff1-a6cf-027246a22486" />
+
+
+<img width="717" height="359" alt="image" src="https://github.com/user-attachments/assets/3ec67f7e-2cf4-40a9-b184-66b6527aaecf" />
+
+
+<img width="940" height="475" alt="image" src="https://github.com/user-attachments/assets/db9c2f64-c327-485a-a5a8-c0b5218599f5" />
+
+
+</details>
+
+<details>
+<summary><b>L5 - Deep N-Well And High Voltage Rules</b></summary>
+
+
+<img width="767" height="554" alt="image" src="https://github.com/user-attachments/assets/7b4b47ff-e0d8-4c97-b5fb-46836feab138" />
+
+
+In this normal CMOS, the pmos is protected from the substrate noise (the noise generated from other devices connected to the substrate). But at the same time. Nmos is connected to the substrate & the noise will directly get coupled to nmos. Inorder to avoid this, we introduce another layer names, deep nwell into this.
+
+
+<img width="940" height="563" alt="image" src="https://github.com/user-attachments/assets/caf7e19e-c9d7-400d-81c8-1a9583dfaddf" />
+
+
+<img width="940" height="552" alt="image" src="https://github.com/user-attachments/assets/964608d0-7710-4291-b646-60f8ff9dd22e" />
+
+
+<img width="760" height="578" alt="image" src="https://github.com/user-attachments/assets/cefe4c47-ac18-4dbd-aa4f-077a98a59937" />
+
+
+<img width="882" height="553" alt="image" src="https://github.com/user-attachments/assets/a92f55b5-73b1-4d86-bae1-52e278772536" />
+
+
+<img width="742" height="642" alt="image" src="https://github.com/user-attachments/assets/023cdd21-acde-43ed-8781-3108a301a389" />
+
+
+<img width="731" height="626" alt="image" src="https://github.com/user-attachments/assets/7ff44c7c-5c68-4efe-8bc3-be0f0f6f9527" />
+
+
+</details>
+
+<details>
+<summary><b>L6 - Device Rules</b></summary>
+
+
+For resistors,
+
+
+<img width="940" height="445" alt="image" src="https://github.com/user-attachments/assets/853df4da-074b-46e9-8a50-1905e3926e07" />
+
+
+<img width="785" height="450" alt="image" src="https://github.com/user-attachments/assets/222f88fa-328d-49dd-88d7-334f5770e5ba" />
+
+
+<img width="897" height="592" alt="image" src="https://github.com/user-attachments/assets/068d1989-e508-4805-93c1-ef619a641470" />
+
+
+<img width="940" height="553" alt="image" src="https://github.com/user-attachments/assets/f0cf1867-f227-4973-b0f8-2117eb8a827c" />
+
+
+<img width="940" height="460" alt="image" src="https://github.com/user-attachments/assets/421797be-b6e0-4e62-97da-d2818f2d041e" />
+
+
+It uses capacitance of the side walls. Also known as MoM (Metal oxide Metal).
+
+
+<img width="940" height="491" alt="image" src="https://github.com/user-attachments/assets/a2173401-4d3b-4b15-865d-df731854e59f" />
+
+
+<img width="940" height="452" alt="image" src="https://github.com/user-attachments/assets/176d0cfd-f3c2-4781-a973-2fb0cc3ea4da" />
+
+
+<img width="856" height="589" alt="image" src="https://github.com/user-attachments/assets/ac3300fa-4879-48a6-9d2c-8c471361a09c" />
+
+
+</details>
+
+<details>
+<summary><b>L7 - Miscellaneous Rules Latch-up Antenna Stress Rules</b></summary>
+
+
+<img width="934" height="592" alt="image" src="https://github.com/user-attachments/assets/97740354-5dc5-4984-92f9-540e8fb4d223" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
