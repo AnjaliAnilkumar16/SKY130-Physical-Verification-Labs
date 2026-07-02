@@ -2409,7 +2409,7 @@ i0_analog[4] error, In the .mag file for the circuit we can see the 2 nets are s
 ---
 
 
-#Day 4 - OpenLane and Physical Verification Flow - Additional Content
+# Day 4 - OpenLane and Physical Verification Flow - Additional Content
 
 
 
